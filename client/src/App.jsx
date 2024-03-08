@@ -16,11 +16,16 @@ console.log(SOCKET_URL);
 function App() {
   const [images, setImages] = useState([]);
 
-  console.log('test')
   useEffect(() => {
     socket.on('newImage', (data) => {
+      console.log(data)
       setImages((prevImages) => [...prevImages, data]);
     });
+    socket.on('newConvertedImage', (data) => {
+      const base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(data)));
+      console.log(base64String)
+      setImages((prevImages) => [...prevImages, base64String]);
+    })
   }, []);
 
   return (

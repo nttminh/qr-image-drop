@@ -12,8 +12,13 @@ function Upload() {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      setSelectedImage(reader.result);
-      socket.emit('uploadImage', reader.result);
+      if (file.name.toLowerCase().endsWith('heic')) {
+        console.log(reader.result)
+        socket.emit('uploadHEIC', reader.result);
+      } else {
+        socket.emit('uploadImage', reader.result);
+        setSelectedImage(reader.result);
+      }
     };
   };
 
